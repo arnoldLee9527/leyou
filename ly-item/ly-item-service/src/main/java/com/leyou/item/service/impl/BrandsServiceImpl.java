@@ -73,4 +73,9 @@ public class BrandsServiceImpl implements BrandsService {
         //删除
         brandsMapper.deleteBrand(bid);
     }
+
+    public Brand queryBrandById(Long bid) {
+        Brand brand = brandsMapper.selectByPrimaryKey(bid);
+        return brand;
+    }
 }

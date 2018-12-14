@@ -6,6 +6,7 @@ import com.leyou.item.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,5 +27,16 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> queryByBrandId(Long bid) {
         List categories = categoryMapper.queryByBrandId(bid);
         return categories;
+    }
+
+    public List<String> queryNamesById(List<Long> idList) {
+        List<Category> categories = categoryMapper.selectByIdList(idList);
+        //将品牌名称转换为字符串数组返回
+        List<String> names = new ArrayList<>();
+        for (Category category : categories) {
+            names.add(category.getName());
+        }
+        return names;
+
     }
 }
