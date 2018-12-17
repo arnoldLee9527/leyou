@@ -1,6 +1,7 @@
 package com.leyou.item.controller;
 
 import com.leyou.item.pojo.Brand;
+import com.leyou.item.pojo.Category;
 import com.leyou.item.service.BrandsService;
 import com.leyou.pojo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class BrandsController {
     @Autowired
     private BrandsService brandsService;
 
-
+    //品牌管理-页面
     @RequestMapping("page")
     public ResponseEntity<PageResult<Brand>> queryBrandByPageAndSort(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -34,11 +35,12 @@ public class BrandsController {
 
     }
 
+    //品牌管理-新增品牌
     @PostMapping
     public void saveBrand(Brand brand, @RequestParam("cids")List<Long> cids){
         brandsService.saveBrand(brand, cids);
     }
-
+    //品牌管理-修改品牌
     @PutMapping
     public void editBrand(Brand brand, @RequestParam("cids")List<Long> cids){
         brandsService.editBrand(brand, cids);
@@ -47,6 +49,16 @@ public class BrandsController {
     @DeleteMapping("delete/{bid}")
     public void deleteBrand(@PathVariable("bid")Long bid){
         brandsService.deleteBrand(bid);
+    }
+
+    //新增商品-根据分类查询品牌
+    @GetMapping("cid/{cid}")
+    public ResponseEntity<List<Brand>> queryBrandByCategory(@PathVariable("cid")Long cid){
+        List<Brand> brands = brandsService.queryBrandByCategory(cid);
+        if (brands != null && 0!=brands.size()) {
+            return ResponseEntity.ok(brands);
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

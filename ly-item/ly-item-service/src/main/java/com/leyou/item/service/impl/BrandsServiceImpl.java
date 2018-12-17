@@ -74,6 +74,13 @@ public class BrandsServiceImpl implements BrandsService {
         brandsMapper.deleteBrand(bid);
     }
 
+    @Override
+    public List<Brand> queryBrandByCategory(Long cid) {
+        List<Brand> brands = brandsMapper.queryBrandByCategory(cid);
+        return brands;
+    }
+
+    //商品列表页面-品牌查询
     public Brand queryBrandById(Long bid) {
         Brand brand = brandsMapper.selectByPrimaryKey(bid);
         return brand;

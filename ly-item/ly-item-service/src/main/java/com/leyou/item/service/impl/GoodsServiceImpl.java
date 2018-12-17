@@ -2,20 +2,23 @@ package com.leyou.item.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.leyou.item.mapper.GoodsDetailMapper;
 import com.leyou.item.mapper.GoodsMapper;
-import com.leyou.item.pojo.Brand;
-import com.leyou.item.pojo.Spu;
-import com.leyou.item.pojo.SpuBo;
+import com.leyou.item.mapper.SkuMapper;
+import com.leyou.item.mapper.StockMapper;
+import com.leyou.item.pojo.*;
 import com.leyou.item.service.GoodsService;
 import com.leyou.pojo.PageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +32,15 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private BrandsServiceImpl brandsService;
+
+    @Autowired
+    private GoodsDetailMapper goodsDetailMapper;
+
+    @Autowired
+    private SkuMapper skuMapper;
+
+    @Autowired
+    private StockMapper stockMapper;
 
     @Override
     public PageResult<SpuBo> querySpuByPageAndSort(String key, Boolean saleable, Integer page, Integer rows) {
@@ -78,5 +90,73 @@ public class GoodsServiceImpl implements GoodsService {
         }
 
         return new PageResult<>(spuPage.getTotal(),new Long(spuPage.getPages()),spuBoList);
+    }
+
+    //新增商品
+    @Override
+    @Transactional
+    public void saveGoods(SpuBo spuBo) {
+    //1、新增商品表
+        //1.1、是否上架
+        spuBo.setSaleable(true);
+        //1.2、创建时间
+        spuBo.setCreateTime(new Date());
+        //1.3、修改时间
+        spuBo.setLastUpdateTime(spuBo.getCreateTime());
+        //1.4、修改valid
+        spuBo.setValid(true);
+        goodsMapper.insert(spuBo);
+
+    //2、新增商品详情
+        spuBo.getSpuDetail().setSpuId(spuBo.getId());
+        goodsDetailMapper.insert(spuBo.getSpuDetail());
+
+        //获取skus
+        List<Sku> skus = spuBo.getSkus();
+
+        skus.forEach(sku -> {
+            //3、新增商品库存
+            //设置浏览器未提交参数
+            sku.setSpuId(spuBo.getId());
+            sku.setCreateTime(spuBo.getCreateTime());
+            sku.setLastUpdateTime(spuBo.getCreateTime());
+            skuMapper.insert(sku);
+
+            //4、新增库存表
+            Stock stock = new Stock();
+            stock.setStock(sku.getStock());
+            stock.setSkuId(sku.getId());
+            stockMapper.insert(stock);
+
+        });
+
+    }
+    //修改商品 TODO
+    @Override
+    public void updateGoods(SpuBo spuBo) {
+
+    }
+    //修改商品回显查询
+    @Override
+    public SpuDetail querySpuDetailById(Long spuId) {
+        SpuDetail spuDetail = this.goodsDetailMapper.selectByPrimaryKey(spuId);
+        return spuDetail;
+    }
+    //修改商品回显查询
+    @Override
+    public List<Sku> querySkuById(Long id) {
+        Sku sku = new Sku();
+        sku.setSpuId(id);
+        List<Sku> skus = skuMapper.select(sku);
+//    stock回显
+        Stock stock = new Stock();
+        for (Sku skus1 : skus) {
+            stock.setSkuId(skus1.getId());
+            List<Stock> stocks = stockMapper.select(stock);
+            for (Stock stock1 : stocks) {
+                skus1.setStock(stock1.getStock());
+            }
+        }
+        return skus;
     }
 }
