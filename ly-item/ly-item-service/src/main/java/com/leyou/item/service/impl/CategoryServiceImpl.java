@@ -29,6 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categories;
     }
 
+    // 根据商品分类id查询名称
     public List<String> queryNamesById(List<Long> idList) {
         List<Category> categories = categoryMapper.selectByIdList(idList);
         //将品牌名称转换为字符串数组返回

@@ -1,11 +1,10 @@
 package com.leyou.item.controller;
 
-import com.leyou.item.mapper.SkuMapper;
 import com.leyou.item.pojo.Sku;
 import com.leyou.item.pojo.SpuBo;
 import com.leyou.item.pojo.SpuDetail;
 import com.leyou.item.service.GoodsService;
-import com.leyou.pojo.PageResult;
+import com.leyou.search.pojo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +63,7 @@ public class GoodsController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    //修改商品
+    //TODO 修改商品
     @PutMapping("goods")
     public ResponseEntity<Void> updateGoods(@RequestBody SpuBo spuBo){
         try {

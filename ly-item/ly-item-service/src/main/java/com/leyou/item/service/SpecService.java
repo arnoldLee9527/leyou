@@ -8,5 +8,5 @@ import java.util.List;
 public interface SpecService {
     List<SpecGroup> querySpecGroups(Long cid);
 
-    List<SpecParam> querySpecParams(Long gid, Long cid);
+    List<SpecParam> querySpecParams(Long gid, Long cid, Boolean generic, Boolean searching);
 }

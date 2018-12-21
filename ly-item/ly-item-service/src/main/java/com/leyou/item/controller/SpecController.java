@@ -30,9 +30,11 @@ public class SpecController {
     @GetMapping("params")
     public ResponseEntity<List<SpecParam>> querySpecParams(
             @RequestParam(value = "gid",required = false) Long gid,
-            @RequestParam(value = "cid",required = false)Long cid
+            @RequestParam(value = "cid",required = false)Long cid,
+            @RequestParam(value = "generic",required = false) Boolean generic,
+            @RequestParam(value = "searching",required = false)Boolean searching
         ){
-        List<SpecParam> specParams = specService.querySpecParams(gid,cid);
+        List<SpecParam> specParams = specService.querySpecParams(gid,cid,generic,searching);
 
         if (specParams != null && 0 != specParams.size()) {
             return ResponseEntity.ok(specParams);

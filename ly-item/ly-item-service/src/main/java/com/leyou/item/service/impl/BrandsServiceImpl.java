@@ -5,7 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.leyou.item.mapper.BrandsMapper;
 import com.leyou.item.pojo.Brand;
 import com.leyou.item.service.BrandsService;
-import com.leyou.pojo.PageResult;
+import com.leyou.search.pojo.PageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -3,7 +3,7 @@ package com.leyou.item.service;
 import com.leyou.item.pojo.Sku;
 import com.leyou.item.pojo.SpuBo;
 import com.leyou.item.pojo.SpuDetail;
-import com.leyou.pojo.PageResult;
+import com.leyou.search.pojo.PageResult;
 
 import java.util.List;
 
