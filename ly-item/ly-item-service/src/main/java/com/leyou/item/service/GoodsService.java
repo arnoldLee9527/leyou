@@ -1,6 +1,7 @@
 package com.leyou.item.service;
 
 import com.leyou.item.pojo.Sku;
+import com.leyou.item.pojo.Spu;
 import com.leyou.item.pojo.SpuBo;
 import com.leyou.item.pojo.SpuDetail;
 import com.leyou.search.pojo.PageResult;
@@ -17,4 +18,6 @@ public interface GoodsService {
     SpuDetail querySpuDetailById(Long spuId);
 
     List<Sku> querySkuById(Long id);
+
+    Spu querySpuById(Long id);
 }

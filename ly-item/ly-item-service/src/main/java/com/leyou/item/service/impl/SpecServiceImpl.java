@@ -26,6 +26,18 @@ public class SpecServiceImpl implements SpecService {
         specGroup.setCid(cid);
 
         List<SpecGroup> specGroups = specGroupMapper.select(specGroup);
+
+        //根据组查询组内参数
+        specGroups.forEach(group ->{
+
+            SpecParam specParam = new SpecParam();
+
+            specParam.setGroupId(group.getId());
+            specParam.setCid(group.getCid());
+
+            group.setParams(specParamMapper.select(specParam));
+        });
+
         return specGroups;
     }
 

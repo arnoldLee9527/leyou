@@ -1,6 +1,7 @@
 package com.leyou.item.api;
 
 import com.leyou.item.pojo.Sku;
+import com.leyou.item.pojo.Spu;
 import com.leyou.item.pojo.SpuBo;
 import com.leyou.item.pojo.SpuDetail;
 import com.leyou.search.pojo.PageResult;
@@ -27,5 +28,7 @@ public interface GoodsApi {
     @GetMapping("spu/detail/{spuId}")
     SpuDetail querySpuDetailById(@PathVariable("spuId")Long spuId);
 
+    @GetMapping("item/{id}.html")
+    Spu querySpuById(@PathVariable("id")Long id);
 
 }

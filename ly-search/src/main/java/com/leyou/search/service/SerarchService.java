@@ -1,9 +1,8 @@
 package com.leyou.search.service;
 
-import com.leyou.search.pojo.Goods;
-import com.leyou.search.pojo.PageResult;
-import com.leyou.search.pojo.SearchRequest;
+import com.leyou.search.utils.SearchRequest;
+import com.leyou.search.utils.SearchResult;
 
 public interface SerarchService {
-    PageResult<Goods> search(SearchRequest searchRequest);
+    SearchResult search(SearchRequest searchRequest);
 }

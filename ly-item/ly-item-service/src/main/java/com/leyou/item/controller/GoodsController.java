@@ -1,6 +1,7 @@
 package com.leyou.item.controller;
 
 import com.leyou.item.pojo.Sku;
+import com.leyou.item.pojo.Spu;
 import com.leyou.item.pojo.SpuBo;
 import com.leyou.item.pojo.SpuDetail;
 import com.leyou.item.service.GoodsService;
@@ -63,7 +64,7 @@ public class GoodsController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    //TODO 修改商品
+    // 修改商品
     @PutMapping("goods")
     public ResponseEntity<Void> updateGoods(@RequestBody SpuBo spuBo){
         try {
@@ -74,5 +75,15 @@ public class GoodsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
+    }
+
+    @GetMapping("item/{id}.html")
+    public ResponseEntity<Spu> querySpuById(@PathVariable("id")Long id){
+
+        Spu spu = goodsService.querySpuById(id);
+        if (spu != null) {
+            return ResponseEntity.ok(spu);
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

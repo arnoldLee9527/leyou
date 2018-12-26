@@ -2,6 +2,7 @@ package com.leyou.item.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.leyou.item.mapper.BrandMapper;
 import com.leyou.item.mapper.BrandsMapper;
 import com.leyou.item.pojo.Brand;
 import com.leyou.item.service.BrandsService;
@@ -19,6 +20,9 @@ public class BrandsServiceImpl implements BrandsService {
 
     @Autowired
     private BrandsMapper brandsMapper;
+
+    @Autowired
+    private BrandMapper brandMapper;
 
     @Override
     public PageResult<Brand> queryBrandByPageAndSort(Integer page, Integer rowsPerPage, String sortBy, Boolean desc, String key) {
@@ -78,6 +82,13 @@ public class BrandsServiceImpl implements BrandsService {
     public List<Brand> queryBrandByCategory(Long cid) {
         List<Brand> brands = brandsMapper.queryBrandByCategory(cid);
         return brands;
+    }
+
+    @Override
+    public List<Brand> queryBrandByIds(List<Long> ids) {
+        List list = brandMapper.selectByIdList(ids);
+        return list;
+
     }
 
     //商品列表页面-品牌查询

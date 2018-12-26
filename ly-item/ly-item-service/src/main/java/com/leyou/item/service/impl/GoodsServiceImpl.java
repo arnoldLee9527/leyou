@@ -223,4 +223,11 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return skus;
     }
+
+    @Override
+    public Spu querySpuById(Long id) {
+        Spu spu = goodsMapper.selectByPrimaryKey(id);
+        return spu;
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.leyou.search.pojo;
+package com.leyou.search.utils;
 
 public class SearchRequest {
     private String key;
