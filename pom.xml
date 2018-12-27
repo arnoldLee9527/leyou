@@ -15,6 +15,7 @@
         <module>ly-upload</module>
         <module>ly-search</module>
         <module>ly-goods-page</module>
+        <module>ly-user</module>
     </modules>
     <packaging>pom</packaging>
 
