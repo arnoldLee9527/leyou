@@ -1,6 +1,5 @@
 package com.leyou.item.service.impl;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.leyou.item.mapper.GoodsDetailMapper;
@@ -11,6 +10,10 @@ import com.leyou.item.pojo.*;
 import com.leyou.item.service.GoodsService;
 import com.leyou.search.pojo.PageResult;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +46,17 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private StockMapper stockMapper;
 
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+
+    Logger logger = LoggerFactory.getLogger(GoodsServiceImpl.class);
+
+
     @Override
     public PageResult<SpuBo> querySpuByPageAndSort(String key, Boolean saleable, Integer page, Integer rows) {
+
+
         //开启分页
         PageHelper.startPage(page, rows);
 
@@ -60,7 +72,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (saleable != null) {
             criteria.andEqualTo("saleable", saleable);
         }
-        // TODO
+        //
         Page<Spu> spuPage = (Page<Spu>) goodsMapper.selectByExample(example);
 
         List<SpuBo> spuBoList = new ArrayList<>();
@@ -129,6 +141,13 @@ public class GoodsServiceImpl implements GoodsService {
 
         });
 
+        try {
+            amqpTemplate.convertAndSend("item.insert",spuBo.getId());
+        } catch (AmqpException e) {
+            logger.error("商品新增消息发送异常");
+            e.printStackTrace();
+        }
+
     }
 
     //修改商品 TODO
@@ -194,6 +213,13 @@ public class GoodsServiceImpl implements GoodsService {
                     }
                 }
             }
+        }
+
+        try {
+            amqpTemplate.convertAndSend("item.update",spuBo.getId());
+        } catch (AmqpException e) {
+            logger.error("商品修改消息发送异常");
+            e.printStackTrace();
         }
 
     }

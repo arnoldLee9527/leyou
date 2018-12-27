@@ -23,7 +23,7 @@ public class FileService {
     private TemplateEngine templateEngine;
 
     @Value("${ly.thymeleaf.destPath}")
-    private String destPath;// F:/develop/nginx-1.14.0/html
+    private String destPath;// F:/develop/nginx-1.14.0/html/item
 
     /**
      * 创建html页面
@@ -100,5 +100,14 @@ public class FileService {
                 e.printStackTrace();
             }
         });
+    }
+
+    /**
+     * 删除更新的原静态页面
+     * @param id
+     */
+    public void deleteHtml(Long id) {
+        File file = new File(this.destPath, id + ".html");
+        file.deleteOnExit();
     }
 }

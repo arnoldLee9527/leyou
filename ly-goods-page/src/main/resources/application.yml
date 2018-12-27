@@ -6,6 +6,13 @@ spring:
     name: goods-page
   thymeleaf:
     cache: false
+
+  rabbitmq:
+    host: localhost
+    username: leyou
+    password: leyou
+    virtual-host: /leyou
+
 eureka:
   client:
     service-url:
