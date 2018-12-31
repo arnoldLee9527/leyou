@@ -1,7 +1,6 @@
 package com.leyou.TestDemo;
 
 import com.leyou.ElasticsearchApplication;
-import com.leyou.item.pojo.Spu;
 import com.leyou.item.pojo.SpuBo;
 import com.leyou.search.client.GoodsClient;
 import com.leyou.search.pojo.Goods;
